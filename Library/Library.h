@@ -10,7 +10,15 @@
 #define LIBRARY_API __declspec(dllimport)
 #endif
 
+#include <istream>
+#define bsize 1024
+
 extern LIBRARY_API int optind;
 extern LIBRARY_API char *optarg;
 
+enum Readmode {
+	bytes, lines, words, alphas
+};
+
 LIBRARY_API int getopt(int argc, char *argv[], char *optstring);
+LIBRARY_API int countf(std::istream &is, Readmode mode);

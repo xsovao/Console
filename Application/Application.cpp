@@ -7,76 +7,111 @@
 #include <iostream>
 #include <fstream>
 
-using namespace std;
 
-int main(int argc, char **argv)
-{
-	ifstream f;
+
+using namespace std;
+/*
+enum Readmode {
+	bytes, lines, words, alphas
+};
+
+int countf(istream &is, Readmode mode) {
+
 	short inw;
 	long i;
-	short mode = -1;
 	long r = 0, n = 0;
-	long bsize = 1024;
-	char *fname;
-	char buf[1024];
-	for (i = 0; i<1024; i++)buf[i] = 0;
-
-	if (argc == 3) {
-		if (argv[1][0] == '-') {
-			switch (argv[1][1]) {
-			case 'c':mode = 0; break; //bytes
-			case 'l':mode = 1; break; //lines
-			case 'w':mode = 2; break; //words
-			case 'a':mode = 3; break; //alpha
-			default:
-				std::cout << "nespravne argumenty\n\n";
-				return -1;
-			}
-			fname = argv[2];
-		}
-		else {
-			std::cout << "nespravne argumenty\n\n";
-			return -1;
-		}
-	}
-	else {
-		std::cout << "nespravne argumenty\n\n";
-		return -1;
-	}
-
-	f.open(fname, ios::in);
-	if (!f) {
-		cout << "chyba otvarania\n";
-		return -1;
-	}
-
+	char buf[bsize] = { 0, };
+	
+	
 	do {
-		f.read(buf, bsize);
-		r = f.gcount();
+		is.read(buf, bsize);
+		r = is.gcount();
 		switch (mode) {
 
-		case 0: n += r; break;
-		case 1: for (i = 0; i<r; i++)if (buf[i] == '\n')n++; break;
-		case 2: for (i = 0; i<r; i++)
+		case bytes: n += r; break;
+		case lines: for (i = 0; i<r; i++)if (buf[i] == '\n')n++; break;
+		case words: for (i = 0; i<r; i++)
 			if ((buf[i] >= 'a' && buf[i] <= 'z') || (buf[i] >= 'A' && buf[i] <= 'Z'))inw = 1;
 			else { if (inw) { n++; inw = 0; } }
 			break;
-		case 3: for (i = 0; i<r; i++)
+		case alphas: for (i = 0; i<r; i++)
 			if ((buf[i] >= 'a' && buf[i] <= 'z') || (buf[i] >= 'A' && buf[i] <= 'Z'))n++; break;
 
 		}
 	} while (r>0);
 
-	switch (mode) {
-
-	case 0: std::cout << "subor " << fname << " ma " << n << " bytov\n\n"; break;
-	case 1: std::cout << "subor " << fname << " ma " << n + 1 << " riadkov\n\n"; break;
-	case 2: std::cout << "subor " << fname << " ma " << n << " slov\n\n"; break;
-	case 3: std::cout << "subor " << fname << " ma " << n << " alfanum znakov\n\n"; break;
-
+	switch(mode){
+	case bytes:
+	case words:
+	case alphas:
+		cout << n; break;
+	case lines: cout << n + 1;
 	}
 
-	f.close();
 	cout << "\n";
+	return 0;
+
+}
+
+*/
+
+int main(int argc, char **argv)
+{
+
+	ifstream f;
+	short inw;
+	long i;
+	Readmode mode;
+	long r = 0, n = 0;
+	char *fname;
+	char buf[bsize] = {0,};
+	//for (i = 0; i < 1024; i++)buf[i] = 0;
+
+
+	switch (argc ) {
+	case 3:
+		if (argv[1][0] == '-') {
+			switch (argv[1][1]) {
+			case 'c':mode = bytes; break; //bytes
+			case 'l':mode = lines; break; //lines
+			case 'w':mode = words; break; //words
+			case 'a':mode = alphas; break; //alpha
+			default:
+				std::cout << "nespravne argumenty\n\n";
+				return -1;
+			}
+
+			f.open(fname, ios::in);
+			if (!f) {
+				cout << "chyba otvarania\n";
+				return -1;
+			}
+
+			cout << countf(f,mode);
+
+		}
+		else {
+			std::cout << "nespravne argumenty\n\n";
+			return -1;
+		}
+		break;
+	case 2:
+		if (argv[1][0] == '-') {
+			switch (argv[1][1]) {
+			case 'c':mode = bytes; break; //bytes
+			case 'l':mode = lines; break; //lines
+			case 'w':mode = words; break; //words
+			case 'a':mode = alphas; break; //alpha
+			default:
+				std::cout << "nespravne argumenty\n\n";
+				return -1;
+			}
+
+			cout << countf(cin,mode);
+		}
+	default:
+		std::cout << "nespravne argumenty\n\n";
+		return -1;
+	}
 	return 0;
 }

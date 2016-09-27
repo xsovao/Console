@@ -60,5 +60,13 @@ namespace UnitTests
 			Assert::IsTrue(getopt((int)argv.size(), &argv[0], opts) == EOF, L"last option");
 			Assert::IsTrue(optind == 5, L"first param index");
 		}
+
+		TEST_METHOD(Test_wc) 
+		{
+
+			//TODO check test.txt externally.
+			//TODO countf() for each mode.
+			//TODO Assert::IsEqual
+
 	};
 }
