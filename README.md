@@ -1,3 +1,4 @@
-# Konzolová aplikácia
+# Zadanie 1 / Konzolová aplikácia
 
-Základ konzolovej Win32 aplikácie. Podrobnejší opis vo [wiki](../../wiki).
+WC / Pocet slov
+
