@@ -64,10 +64,44 @@ int main(int argc, char **argv)
 	Readmode mode;
 	long r = 0, n = 0;
 	char *fname;
+	char c;
 	char buf[bsize] = {0,};
 	//for (i = 0; i < 1024; i++)buf[i] = 0;
 
+	//test
+	/*
+	f.open("ten.txt", ios::in);
+	cout << countf(f, bytes) << "/n";
+	f.close();
+	f.open("ten.txt", ios::in);
+	cout << countf(f, lines) << "/n";
+	f.close();
+	f.open("ten.txt", ios::in);
+	cout << countf(f, words) << "/n";
+	f.close();*/
 
+	while ((c = getopt(argc, argv, "clwa")) != EOF) {
+		switch (c)
+		{
+		case 'c':mode = bytes; fname = optarg; break; //bytes
+		case 'l':mode = lines; fname = optarg; break; //lines
+		case 'w':mode = words; fname = optarg; break; //words
+		case 'a':mode = alphas; fname = optarg; break; //alpha
+		default:
+			std::cerr << "nespravne argumenty\n\n";
+			return -1;
+		}
+
+		f.open(fname, ios::in);
+		if (!f) {
+			std::cerr << "chyba otvarania\n";
+			return -1;
+		}
+		cout << countf(f, mode);
+		f.close();
+	}
+
+		/*
 	switch (argc ) {
 	case 3:
 		if (argv[1][0] == '-') {
@@ -77,13 +111,13 @@ int main(int argc, char **argv)
 			case 'w':mode = words; break; //words
 			case 'a':mode = alphas; break; //alpha
 			default:
-				std::cout << "nespravne argumenty\n\n";
+				std::cerr << "nespravne argumenty\n\n";
 				return -1;
 			}
 
 			f.open(fname, ios::in);
 			if (!f) {
-				cout << "chyba otvarania\n";
+				std::cerr << "chyba otvarania\n";
 				return -1;
 			}
 
@@ -91,7 +125,7 @@ int main(int argc, char **argv)
 
 		}
 		else {
-			std::cout << "nespravne argumenty\n\n";
+			std::cerr << "nespravne argumenty\n\n";
 			return -1;
 		}
 		break;
@@ -103,15 +137,17 @@ int main(int argc, char **argv)
 			case 'w':mode = words; break; //words
 			case 'a':mode = alphas; break; //alpha
 			default:
-				std::cout << "nespravne argumenty\n\n";
+				std::cerr << "nespravne argumenty\n\n";
 				return -1;
 			}
 
 			cout << countf(cin,mode);
 		}
 	default:
-		std::cout << "nespravne argumenty\n\n";
+		std::cerr << "nespravne argumenty\n\n";
 		return -1;
 	}
+
+	*/
 	return 0;
 }

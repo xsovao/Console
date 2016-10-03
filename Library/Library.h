@@ -10,7 +10,8 @@
 #define LIBRARY_API __declspec(dllimport)
 #endif
 
-#include <istream>
+#include <iostream>
+#include <fstream>
 #define bsize 1024
 
 extern LIBRARY_API int optind;
